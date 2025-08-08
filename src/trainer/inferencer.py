@@ -120,10 +120,11 @@ class Inferencer(BaseTrainer):
         batch = self.transform_batch(batch)  # transform batch on device -- faster
 
         outputs = self.model(**batch)
-        batch.update(outputs)
+        batch.update({"logits": outputs})
 
         if metrics is not None:
             for met in self.metrics["inference"]:
+                print(batch)
                 metrics.update(met.name, met(**batch))
 
         # Some saving logic. This is an example

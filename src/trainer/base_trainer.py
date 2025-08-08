@@ -24,7 +24,7 @@ class BaseTrainer:
         lr_scheduler,
         config,
         device,
-        dataloaders,
+        dataloaders: dict[torch.utils.data.DataLoader],
         logger,
         writer,
         epoch_len=None,
@@ -73,7 +73,7 @@ class BaseTrainer:
         self.batch_transforms = batch_transforms
 
         # define dataloaders
-        self.train_dataloader = dataloaders["train"]
+        self.train_dataloader: torch.utils.data.DataLoader = dataloaders["train"]
         if epoch_len is None:
             # epoch-based training
             self.epoch_len = len(self.train_dataloader)
@@ -202,6 +202,7 @@ class BaseTrainer:
         self.train_metrics.reset()
         self.writer.set_step((epoch - 1) * self.epoch_len)
         self.writer.add_scalar("epoch", epoch)
+        #print(next(self.train_dataloader))
         for batch_idx, batch in enumerate(
             tqdm(self.train_dataloader, desc="train", total=self.epoch_len)
         ):
@@ -364,6 +365,8 @@ class BaseTrainer:
                 the dataloader (possibly transformed via batch transform).
         """
         # do batch transforms on device
+
+        '''
         transform_type = "train" if self.is_train else "inference"
         transforms = self.batch_transforms.get(transform_type)
         if transforms is not None:
@@ -371,6 +374,7 @@ class BaseTrainer:
                 batch[transform_name] = transforms[transform_name](
                     batch[transform_name]
                 )
+        '''
         return batch
 
     def _clip_grad_norm(self):

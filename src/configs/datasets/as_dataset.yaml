@@ -1,8 +1,15 @@
+train:
+  _target_: src.datasets.AntiSpoofDataset
+  protocol_name: "train.trn"
+  name: "train"
+  max_len: 600
 val:
   _target_: src.datasets.AntiSpoofDataset
   protocol_name: "dev.trl"
   name: "dev"
+  max_len: 600
 test:
   _target_: src.datasets.AntiSpoofDataset
   protocol_name: "eval.trl"
   name: "eval"
+  max_len: 600

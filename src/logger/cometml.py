@@ -62,6 +62,7 @@ class CometMLWriter:
                     exp_class = comet_ml.Experiment
 
                 self.exp = exp_class(
+                    api_key="EZd9SBNuUlI4pS5LKs5jvc2J8",
                     project_name=project_name,
                     workspace=workspace,
                     experiment_key=self.run_id,

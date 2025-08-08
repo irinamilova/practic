@@ -43,7 +43,7 @@ def move_batch_transforms_to_device(batch_transforms, device):
                 transforms[transform_name] = transforms[transform_name].to(device)
 
 
-def get_dataloaders(config, device):
+def get_dataloaders(config, device) -> dict:
     """
     Create dataloaders for each of the dataset partitions.
     Also creates instance and batch transforms.
@@ -59,8 +59,8 @@ def get_dataloaders(config, device):
             tensor name.
     """
     # transforms or augmentations init
-    batch_transforms = instantiate(config.transforms.batch_transforms)
-    move_batch_transforms_to_device(batch_transforms, device)
+    # batch_transforms = instantiate(config.transforms.batch_transforms)
+    # move_batch_transforms_to_device(batch_transforms, device)
 
     # dataset partitions init
     datasets = instantiate(config.datasets)  # instance transforms are defined inside
@@ -85,4 +85,4 @@ def get_dataloaders(config, device):
         )
         dataloaders[dataset_partition] = partition_dataloader
 
-    return dataloaders, batch_transforms
+    return dataloaders # , batch_transforms

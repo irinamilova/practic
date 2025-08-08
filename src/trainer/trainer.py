@@ -34,8 +34,11 @@ class Trainer(BaseTrainer):
             metric_funcs = self.metrics["train"]
             self.optimizer.zero_grad()
 
+        #print("555")
+        #print(batch['data_object'].shape)
         outputs = self.model(**batch)
-        batch.update(outputs)
+        #print(batch, "111")
+        batch.update({"logits": outputs})
 
         all_losses = self.criterion(**batch)
         batch.update(all_losses)
@@ -45,7 +48,7 @@ class Trainer(BaseTrainer):
             self._clip_grad_norm()
             self.optimizer.step()
             if self.lr_scheduler is not None:
-                self.lr_scheduler.step()
+                self.lr_scheduler.step(batch["loss"])
 
         # update metrics for each loss (in case of multiple losses)
         for loss_name in self.config.writer.loss_names:
